@@ -1,0 +1,6 @@
+{
+  "name": "Rug Desk",
+  "description": "A public on-chain court for crypto rug-pulls and broken project promises.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
