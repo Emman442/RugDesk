@@ -62,7 +62,7 @@ export const EvidenceCard: React.FC = () => {
         <div className="space-y-0">
           <div className="relative aspect-16/9 w-full bg-[#0A0A0B] overflow-hidden">
             <img
-              src="/src/assets/images/court_evidence_docket_1791978786619.jpg"
+              src="/court_evidence_docket.jpg"
               alt="Forensic courtroom evidence desk with smart contract trace inspection monitor and contradiction exhibits marked with case file stamps"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
