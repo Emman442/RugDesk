@@ -24,7 +24,7 @@ export interface RugDeskCase {
   case_id: string;
   filer: string;
   token_address: string;
-  symbol: string;                 // ← added
+  symbol: string;                 
   claim: string;
   evidence_urls: string[];
   defense: string;

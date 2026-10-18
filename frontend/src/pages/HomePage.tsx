@@ -41,6 +41,19 @@ export const HomePage: React.FC = () => {
     .filter((item): item is RugDeskCase => Boolean(item?.found)), [caseIds, loadedCases]);
   const loading = loadingIds || Boolean(caseIds?.some((id) => !Object.prototype.hasOwnProperty.call(loadedCases, id)));
 
+  const totalCases = cases.length;
+
+  const uniqueTokens = new Set(
+    cases.map((c) => c.token_address.toLowerCase())
+  ).size;
+
+  const reviewedCount = cases.filter(
+    (c) => c.status === 'reviewed' || c.status === 'finalized'
+  ).length;
+
+  const reviewedPercent = totalCases === 0 ? 0 : (reviewedCount / totalCases) * 100;
+
+
   return (
     <div>
       {caseIds?.map((caseId) => (
@@ -56,7 +69,11 @@ export const HomePage: React.FC = () => {
         viewport={{ once: true, margin: '-40px' }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <StatsBar totalCases={cases.length} />
+        <StatsBar
+          totalCases={totalCases}
+          uniqueTokens={uniqueTokens}
+          reviewedPercent={reviewedPercent}
+        />
       </motion.div>
 
       <motion.div

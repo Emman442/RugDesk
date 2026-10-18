@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useFileRugDeskCase } from '../lib/hooks/useRugDesk';
+import { toast } from 'sonner';
 
 export const FileCasePage: React.FC = () => {
   const navigate = useNavigate();
@@ -10,8 +12,7 @@ export const FileCasePage: React.FC = () => {
   const [evidenceUrl1, setEvidenceUrl1] = useState('');
   const [evidenceUrl2, setEvidenceUrl2] = useState('');
   const [evidenceUrl3, setEvidenceUrl3] = useState('');
-
-  const [submitting, setSubmitting] = useState(false);
+  const { isPending: isFilingCase, mutate: fileCase } = useFileRugDeskCase();
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,36 +46,27 @@ export const FileCasePage: React.FC = () => {
       }
     }
 
-    const evidenceUrlsJson = JSON.stringify(urls);
+
     const cleanSymbol = symbol.trim().replace(/^\$/, '').slice(0, 32);
 
-    setSubmitting(true);
-    try {
-      // TODO: Replace with your GenLayer client / wallet call
-      // Example (pseudo):
-      // const caseId = await rugDesk.write.file_case(
-      //   addr,
-      //   claimText,
-      //   evidenceUrlsJson,
-      //   cleanSymbol
-      // );
-      // navigate(`/docket/${caseId}`);
+    const newCase = {
+      tokenAddress: addr.trim(),
+      claim: claimText,
+      evidenceUrls: urls,
+      tokenSymbol: cleanSymbol
+    };
 
-      console.log('Would call file_case with:', {
-        token_address: addr,
-        claim: claimText,
-        evidence_urls_json: evidenceUrlsJson,
-        symbol: cleanSymbol,
-      });
+    fileCase(newCase, {
+      onSuccess: () => {
+        toast.success("Case filed successfully!")
+        navigate("/docket")
+      }, onError: () => {
+        toast.error("Failed to file case. Please try again!")
+      }
+    })
 
-      // Temporary mock until you wire the contract call
-      alert('Contract call not wired yet. Check console for payload.');
-      // navigate('/docket');
-    } catch (err: any) {
-      setError(err?.message || 'Failed to file case');
-    } finally {
-      setSubmitting(false);
-    }
+
+
   };
 
   return (
@@ -93,7 +85,7 @@ export const FileCasePage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-[#A1A1AA] mb-1.5">
-                Token Symbol (optional)
+                Token Symbol
               </label>
               <input
                 type="text"
@@ -188,10 +180,10 @@ export const FileCasePage: React.FC = () => {
             </button>
             <button
               type="submit"
-              disabled={submitting}
+              disabled={isFilingCase}
               className="px-6 py-2.5 text-xs font-semibold text-[#FAFAFA] bg-[#3B6CFF] hover:bg-[#325bd9] rounded-full transition-colors cursor-pointer disabled:opacity-50"
             >
-              {submitting ? 'Submitting…' : 'File Case'}
+              {isFilingCase? 'Submitting…' : 'File Case'}
             </button>
           </div>
         </form>

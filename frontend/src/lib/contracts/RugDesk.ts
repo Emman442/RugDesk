@@ -13,7 +13,7 @@ const MAX_LINKS = 5;
 const MAX_CLAIM_LENGTH = 2000;
 const MAX_URL_LENGTH = 300;
 
-function asRecord(value: unknown): Record<string, unknocwn> {
+function asRecord(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return {};
   }
@@ -77,6 +77,7 @@ function normalizeCase(raw: unknown): RugDeskCase {
     filer: toStringValue(data.filer),
     token_address: toStringValue(data.token_address),
     claim: toStringValue(data.claim),
+    symbol: toStringValue(data.symbol),
 
     evidence_urls: Array.isArray(data.evidence_urls)
       ? data.evidence_urls.map(String)

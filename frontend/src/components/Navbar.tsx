@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useWallet } from '../lib/genlayer/wallet';
+import { truncateCryptoAddress } from '../lib/utils/truncateCryptoAddress';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
@@ -66,7 +67,7 @@ export const Navbar: React.FC = () => {
             onClick={connectWallet}
             className="px-3.5 py-1.5 text-xs font-mono tabular-nums text-[#FAFAFA] bg-transparent border border-[#242428] rounded-full hover:bg-[#17171A] transition-colors whitespace-nowrap cursor-pointer"
           >
-            {isConnected ? 'wallet' : 'Connect wallet'}
+            {isConnected ? `${truncateCryptoAddress(wallet!)}` : 'Connect wallet'}
           </button>
         </div>
       </div>

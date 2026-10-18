@@ -205,14 +205,13 @@ export const DocketTable: React.FC<DocketTableProps> = ({
                       aria-label={`View case ${item.case_id}`}
                       className="hover:bg-[#17171A] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#3B6CFF] transition-colors cursor-pointer group"
                     >
-                      <td className="py-3.5 px-4">
-                        <div className="flex flex-col gap-1">
+                       <td className="py-3.5 px-4">
+                        <div className="flex flex-col">
                           <span className="font-semibold text-[#FAFAFA]">
-                            {truncateAddress(item.token_address)}
+                            {item.symbol}{' '}
                           </span>
-
-                          <span className="text-[11px] font-mono text-[#71717A]">
-                            {item.case_id}
+                          <span className="text-[11px] font-mono tabular-nums text-[#71717A] mt-0.5">
+                            {item.token_address.slice(0, 6)}...{item.token_address.slice(-4)}
                           </span>
                         </div>
                       </td>
