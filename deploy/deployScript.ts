@@ -15,11 +15,13 @@ export default async function main(client: GenLayerClient<any>) {
   try {
     const contractCode = new Uint8Array(readFileSync(filePath));
 
-    await client.initializeConsensusSmartContract();
+    // Define your constructor arguments matching __init__(self, admin_address, protocol_fee_bps)
+    const adminAddress = "0x9dcff04fafc8e7cac8c0a70db61f2e33166ddfb6"
+    const protocolFeeBps = 100;
 
     const deployTransaction = await client.deployContract({
       code: contractCode,
-      args: [],
+      args: [adminAddress, protocolFeeBps],
     });
 
     const receipt = await client.waitForTransactionReceipt({
@@ -44,6 +46,6 @@ export default async function main(client: GenLayerClient<any>) {
 
     console.log(`Contract deployed at address: ${deployedContractAddress}`);
   } catch (error) {
-    throw new Error(`Error during deployment:, ${error}`);
+    throw new Error(`Error during deployment: ${error}`);
   }
 }
